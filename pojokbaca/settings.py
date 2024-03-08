@@ -84,6 +84,9 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+        }
     }
 }
 
@@ -136,8 +139,12 @@ MESSAGE_TAGS = {
     messages.WARNING:"alert alert-warning",
     messages.SUCCESS:"alert alert-success"
 }
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False   
 
 LOGIN_REDIRECT_URL = "/"
 
 LOGOUT_REDIRECT_URL = "/"
+
+MEDIA_URL = 'media/'
+
+MEDIA_ROOT = BASE_DIR / 'media/'
