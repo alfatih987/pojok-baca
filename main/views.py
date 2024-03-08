@@ -7,7 +7,7 @@ from django.contrib import messages
 
 @login_required
 def index(request):
-    return HttpResponse("homepage")
+    return render(request, 'main/index.html')
 
 def register(request):
     if request.method == 'GET':
