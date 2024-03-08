@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+ 
+{% block title %}Login to Pojok Baca{% endblock title %}
+ 
+{% block content %}
+ 
+<div class="container">
+    <div class="row vh-100">
+ 
+        <div class="col-6 m-auto border border-dark rounded-5 p-4 border-2">
+            <form action="" method="post">
+                {% csrf_token %}
+                <h1>Sign in:</h1>
+
+                {% if messages %}
+                    
+                        
+                    {% for message in messages %}
+                        <div class="{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                            
+                    
+                {% endif %}
+
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username :</label>
+                    <input class="form-control" type="text" name="username" id="username">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Password :</label>
+                    <input class="form-control" type="password" name="password" id="password">
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </div>
+                <div>
+                    <p>
+                        if you dont have an account <a href="{% url 'register' %}">click here to sign up</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+ 
+    </div>
+</div>
+ 
+{% endblock content %}
