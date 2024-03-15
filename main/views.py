@@ -4,10 +4,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from django.contrib import messages
+from .models import Book
 
 @login_required
 def index(request):
-    return render(request, 'main/index.html')
+    books = Book.objects.all()
+    data = {
+        "books":books
+ 
+    }
+    return render(request, 'main/index.html', data)
 
 def register(request):
     if request.method == 'GET':
@@ -34,7 +40,11 @@ def register(request):
         )
         user.save()
         messages.success(request,'your account have been created')
-        return render(request, 'registration/login.html')
+        return HttpResponseRedirect(reverse("home"))
 
-
-
+def book_detail(request,id):
+    book = Book.objects.get(id=id)
+    data = {
+        "book" : book 
+    }
+    return render(request, 'main/book_detail.html', data)

@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+{% block title %}
+    Homepage
+{% endblock title %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <img class="img-fluid" src="{{book.cover_image.url}}" alt="">
+        </div>
+        <div class="col-4">
+            <H1>{{book.title}}</H1>
+            <ul>
+                <li>{{book.author}}</li>
+                <li>{{book.published_date}}</li>
+                <li>{{book.created_at}}</li>
+            </ul>
+        </div>
+        <div class="col-4">
+            <img src="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl={{book.code}}&choe=UTF-8" alt="">
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
