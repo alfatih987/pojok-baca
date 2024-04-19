@@ -4,13 +4,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from django.contrib import messages
-from .models import Book
+from .models import Book, Carousel
 
 @login_required
 def index(request):
+    carousel_images = Carousel.objects.all()
     books = Book.objects.all()
     data = {
-        "books":books
+        "books":books,
+        "carousel":carousel_images,
  
     }
     return render(request, 'main/index.html', data)
@@ -48,3 +50,4 @@ def book_detail(request,id):
         "book" : book 
     }
     return render(request, 'main/book_detail.html', data)
+

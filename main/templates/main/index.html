@@ -5,17 +5,48 @@
 {% block content %}
 
 {% include 'main/navbar.html' %}
-<div class="container">
+
+<div class="container px-4">
+  <h1 class="text-center">
+    Welcome to alhazn library
+  </h1>
   <div class="row">
-    
-    {% for book in books %}
-      <div class="col-3 mb-4">
-        <p> {{book.title}} </p>
-        <img src="{{ book.cover_image.url }}" alt="" class="img-fluid">
-        <p>{{ book.author }}</p>
-        <a href="{% url 'book_detail' book.id %}" class="btn btn-primary">Book details</a>
+    <div id="carouselExample" class="carousel slide">
+      <div class="carousel-inner">
+        
+        {% for img in carousel %}
+          <div class="carousel-item ">
+            <img src="{{ img.image.url }}" class="d-block w-100" alt="...">
+          </div>
+        {% endfor %}
+          
+
         
       </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+  </div>
+  <div class="row gx-5">
+    
+    {% for book in books %}
+        <div class="col-sm-12 col-md-4 col-xl-3 mt-4 mb-4">
+          <div class="border border-dark rounded p-3">
+            <p> {{book.title}} </p>
+            <img src="{{ book.cover_image.url }}" alt="" class="img-fluid">
+            <p>{{ book.author }}</p>
+            <div class="text-center">
+              <a href="{% url 'book_detail' book.id %}" class="btn btn-primary text-center">Book details</a>
+            </div>
+          </div>
+        </div>
     {% endfor %}
       
   </div>

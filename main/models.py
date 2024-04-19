@@ -7,5 +7,8 @@ class Book(models.Model):
     published_date = models.DateTimeField()
     code = models.CharField(max_length=10)
     created_at = models.DateTimeField()
+
+class Carousel(models.Model):
+    image = models.ImageField(upload_to="")
     
 
