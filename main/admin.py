@@ -13,3 +13,7 @@ class BookAdmin(admin.ModelAdmin):
         'created_at'
     )
 admin.site.register(Book, BookAdmin)
+
+admin.site.site_header = 'My Project'
+admin.site.index_title = 'index 1'
+admin.site.site_title = 'HTML tittle'

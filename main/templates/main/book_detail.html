@@ -4,7 +4,9 @@
 {% endblock title %}
 {% block content %}
 
-<div class="container">
+{% include 'main/navbar.html' %}
+
+<div class="container mt-2">
     <div class="row">
         <div class="col-4">
             <img class="img-fluid" src="{{book.cover_image.url}}" alt="">
@@ -12,9 +14,9 @@
         <div class="col-4">
             <H1>{{book.title}}</H1>
             <ul>
-                <li>{{book.author}}</li>
-                <li>{{book.published_date}}</li>
-                <li>{{book.created_at}}</li>
+                <li>Author : {{book.author}}</li>
+                <li>Published Date : {{book.published_date}}</li>
+                <li>Created At : {{book.created_at}}</li>
             </ul>
         </div>
         <div class="col-4">
