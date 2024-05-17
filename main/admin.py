@@ -11,9 +11,16 @@ class BookAdmin(admin.ModelAdmin):
         'cover_image',
         'published_date',
         'code',
+        'category',
         'created_at'
     )
-
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'name',
+        'description',
+    )
+    
 class CarouselAdmin(admin.ModelAdmin):
     list_display = (
         'image',
