@@ -22,3 +22,18 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=250)
 
+    def __str__(self):
+        return self.name
+
+    class meta:
+        verbose_name__plural = "Categories"
+
+
+class Author(models.Model):
+    name = models.CharField(max_length=255)
+
+class Publisher(models.Model):
+    name = models.CharField(max_length=255)
+
+class Categories(models.Model):
+    name = models.CharField(max_length=255)
