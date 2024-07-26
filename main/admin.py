@@ -1,10 +1,11 @@
 from django.contrib import admin
 from .models import Book, Carousel, Category, Author, Publisher, BorrowedBook, BorrowedBookDetail
 from slugify import slugify
+import datetime
 
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ["id","title","isbn","language","created_by","category","pages_count","author","publisher"]
+    list_display = ["id","title","isbn","language","created_by","category","pages_count","author","publisher","stock"]
     list_display_links = ["title"]
     exclude = ["created_by", "updated_by"]
     def save_model(self, request, obj, form, change):
@@ -12,7 +13,7 @@ class BookAdmin(admin.ModelAdmin):
             obj.slug = slugify(obj.title)
         user = request.user
         obj.created_by = user
-        obj.updated_by = user
+        obj.updated_by = user.username
         super().save_model(request, obj, form, change)
     
 
@@ -33,10 +34,23 @@ class CategoryAdmin(admin.ModelAdmin):
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "created_by", "updated_by"]
     list_display_links = ["name"]
+    exclude = ["created_by","updated_by"]
+    def save_model(self, request, obj, form, change):
+        user = request.user
+        obj.created_by = user
+        obj.updated_by = user
+        super().save_model(request, obj, form, change)
+
 
 class PublisherAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "created_by", "updated_by"]
     list_display_links = ["name"]
+    exclude = ["created_by","updated_by"]
+    def save_model(self, request, obj, form, change):
+        user = request.user
+        obj.created_by = user
+        obj.updated_by = user
+        super().save_model(request, obj, form, change)
 
 class BorrowedBookAdmin(admin.ModelAdmin):
     exclude = ["created_by","updated_by"]
@@ -49,7 +63,29 @@ class BorrowedBookDetailAdmin(admin.ModelAdmin):
         return obj.returned
     exclude = [ "updated_by"]
     list_display = ["borrowed_book", "book", returned]
-    
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        book = obj.book
+        
+        
+
+    @admin.action(description="Mark selected as returned")
+    def make_return(modeladmin, request, queryset):
+        queryset.update(returned=datetime.datetime.now())
+
+
+
+    @admin.action(description="Mark selected as unreturned")
+    def make_unreturn(modeladmin, request, queryset):
+        queryset.update(returned=None)
+    actions = [make_unreturn, make_return]
+
+
+
+
+
+
 
 
 
@@ -58,6 +94,6 @@ admin.site.register(Carousel,CarouselAdmin)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Author,AuthorAdmin)
 admin.site.register(Publisher,PublisherAdmin)
-admin.site.register(BorrowedBook,BorrowedBookAdmin)
 admin.site.register(BorrowedBookDetail,BorrowedBookDetailAdmin)
+admin.site.register(BorrowedBook,BorrowedBookAdmin)
 

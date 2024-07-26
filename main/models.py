@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+
  
 class Book(models.Model):
     title = models.CharField(max_length=100)
@@ -10,6 +11,7 @@ class Book(models.Model):
     isbn = models.CharField(max_length=15)
     cover_image = models.ImageField(upload_to="book_cover/")
     published_date = models.DateField()
+    stock = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         to=User,
@@ -32,6 +34,8 @@ class Book(models.Model):
     )
     def __str__(self):
         return self.title    
+    
+
  
 class Carousel(models.Model):
     image = models.ImageField(upload_to="carousel_images/")
@@ -112,6 +116,7 @@ class BorrowedBookDetail(models.Model):
         to="Book",
         on_delete=models.DO_NOTHING,
     )
+    
     returned = models.DateTimeField(null=True ,blank = True)
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
