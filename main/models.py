@@ -3,17 +3,18 @@ from django.contrib.auth.models import User
  
 class Book(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.TextField()
+    slug = models.CharField(max_length=255,blank=True)
     language = models.CharField(max_length=100)
     pages_count = models.IntegerField()
     abstract = models.TextField()
-    isbn = models.CharField(max_length=13)
+    isbn = models.CharField(max_length=15)
     cover_image = models.ImageField(upload_to="book_cover/")
-    published_date = models.DateTimeField()
+    published_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         to=User,
         on_delete=models.DO_NOTHING,
+        verbose_name= "input by",
     )
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
@@ -28,7 +29,9 @@ class Book(models.Model):
     publisher = models.ForeignKey(
         to="Publisher",
         on_delete=models.DO_NOTHING
-    )    
+    )
+    def __str__(self):
+        return self.title    
  
 class Carousel(models.Model):
     image = models.ImageField(upload_to="carousel_images/")
@@ -39,12 +42,15 @@ class Carousel(models.Model):
     )
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)   
+    def __str__(self):
+        return self.image
     
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
+        verbose_name= "input by",
         to=User,
         on_delete=models.DO_NOTHING
     )
@@ -54,19 +60,24 @@ class Category(models.Model):
     def __str__(self):
         return self.name
  
-    class meta:
-        verbose_name__plural = "Categories"
+    class Meta:
+        verbose_name_plural = "Categories"
+
  
  
 class Author(models.Model):
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
+        verbose_name= "input by",
         to=User,
         on_delete=models.DO_NOTHING
     )
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)  
+
+    def __str__(self):
+        return self.name
  
 class Publisher(models.Model):
     name = models.CharField(max_length=100)
@@ -77,26 +88,30 @@ class Publisher(models.Model):
     )
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
  
-class Borrowed_book(models.Model):
+class BorrowedBook(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     member = models.ForeignKey(
         to=User,
         on_delete=models.DO_NOTHING
     )
-    librarian = models.CharField(max_length=100)
+    created_by = models.CharField(max_length=100, verbose_name= "librarian",blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
+    def __str__(self):
+        return self.member.username
  
-class Borrowed_book_detail(models.Model):
+class BorrowedBookDetail(models.Model):
     borrowed_book = models.ForeignKey(
-        to="Borrowed_book",
+        to="BorrowedBook",
         on_delete=models.DO_NOTHING,
     )
     book = models.ForeignKey(
         to="Book",
         on_delete=models.DO_NOTHING,
     )
-    returned = models.DateTimeField(default=None)
+    returned = models.DateTimeField(null=True ,blank = True)
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
