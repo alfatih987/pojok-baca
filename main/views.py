@@ -6,10 +6,12 @@ from django.urls import reverse
 from django.contrib import messages
 from .models import Book, Carousel
 
-@login_required
+
+def books(request):
+    pass
 def index(request):
     carousel_images = Carousel.objects.all()
-    books = Book.objects.all()
+    books = Book.objects.all().order_by('-id')[0:4]
     data = {
         "books":books,
         "carousel":carousel_images,
