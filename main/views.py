@@ -51,3 +51,5 @@ def book_detail(request,id):
     }
     return render(request, 'main/book_detail.html', data)
 
+
+

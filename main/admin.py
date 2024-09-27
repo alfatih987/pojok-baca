@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import Book, Carousel, Category, Author, Publisher, BorrowedBook, BorrowedBookDetail
 from slugify import slugify
 import datetime
+from django.utils.html import mark_safe
+
 
 
 class BookAdmin(admin.ModelAdmin):
@@ -18,7 +20,20 @@ class BookAdmin(admin.ModelAdmin):
     
 
 class CarouselAdmin(admin.ModelAdmin):
-    pass
+    def image(self):
+            return mark_safe(f"<img src='{self.image.url}'  height='250' />" )
+    list_display = ["id", image, "created_by", "updated_by"]
+    list_display_links = ["id"]
+    exclude = ["created_by","updated_by"]
+    def save_model(self, request, obj, form, change):
+        user = request.user
+        if not change:
+            obj.created_by = request.user
+        obj.updated_by = user.username
+        super().save_model(request, obj, form, change)
+
+
+
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "created_by","updated_by"]
@@ -26,8 +41,9 @@ class CategoryAdmin(admin.ModelAdmin):
     exclude = ["created_by", "updated_by"]
     def save_model(self, request, obj, form, change):
         user = request.user
-        obj.created_by = user
-        obj.updated_by = user
+        if not change:
+            obj.created_by = request.user
+        obj.updated_by = user.username
         super().save_model(request, obj, form, change)
     
 
@@ -37,8 +53,9 @@ class AuthorAdmin(admin.ModelAdmin):
     exclude = ["created_by","updated_by"]
     def save_model(self, request, obj, form, change):
         user = request.user
-        obj.created_by = user
-        obj.updated_by = user
+        if not change:
+            obj.created_by = request.user
+        obj.updated_by = user.username
         super().save_model(request, obj, form, change)
 
 
@@ -48,8 +65,9 @@ class PublisherAdmin(admin.ModelAdmin):
     exclude = ["created_by","updated_by"]
     def save_model(self, request, obj, form, change):
         user = request.user
-        obj.created_by = user
-        obj.updated_by = user
+        if not change:
+            obj.created_by = request.user
+        obj.updated_by = user.username
         super().save_model(request, obj, form, change)
 
 class BorrowedBookAdmin(admin.ModelAdmin):
@@ -68,7 +86,10 @@ class BorrowedBookDetailAdmin(admin.ModelAdmin):
         if obj.returned is not None:
             obj.delete()
 
-    
+    def delete_queryset(self, request, queryset):
+        for obj in queryset:
+            if obj.returned is not None:
+                obj.delete()
 
     
     def get_form(self, request, obj=None, **kwargs):
@@ -96,7 +117,7 @@ class BorrowedBookDetailAdmin(admin.ModelAdmin):
         for obj in queryset:
             book_id = obj.book.id
             book_object = Book.objects.get(id=book_id)
-            if book_object is None:
+            if obj.returned is None:
                 book_object.stock += 1
             book_object.save()
         queryset.update(returned=datetime.datetime.now())
@@ -108,8 +129,8 @@ class BorrowedBookDetailAdmin(admin.ModelAdmin):
         for obj in queryset:
             book_id = obj.book.id
             book_object = Book.objects.get(id=book_id)
-            if book_object is not None:
-                book_object.stock += 1
+            if obj.returned is not None:
+                book_object.stock -= 1
             book_object.save()
         queryset.update(returned=None)
 

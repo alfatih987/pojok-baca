@@ -1,20 +1,18 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Pojok Baca</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<!-- navbar -->
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#"></a>
-          </li>   
-        </ul>
-        <form class="d-flex" method="post" action="{% url 'logout' %}">
-            {% csrf_token %}          
-          <button class="btn btn-outline-danger" type="submit">Logout</button>
-        </form>
-      </div>
-    </div>
-</nav>
+<div class="container-fluid mb-10 position-sticky">
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                <li class="navbar-item">
+                    <a class="navbar-brand" href="index.html" style="color: #013815 ;"> <i class="bi bi-house-fill"></i> Home</a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-brand" href="books.html" style="color: #013815 ;"> <i class="bi bi-journal-bookmark"></i> Books</a>
+                </li>
+            </ul>
+            <h1 class="navbar-brand" href="#" style="color: #013815 ;">ALHAZN LIBRARY</h1>
+            <button class="btn btn-outline-danger"><i class="bi bi-door-open-fill"></i></button>
+        </div>
+    </nav>
+</div>
