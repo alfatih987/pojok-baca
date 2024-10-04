@@ -6,22 +6,67 @@
 
 {% include 'main/navbar.html' %}
 
-<div class="container mt-2">
+<div class="container" style="margin-top: 5rem;">
     <div class="row">
-        <div class="col-4">
+        <div class="col-6 my-2 border-end text-center">
             <img class="img-fluid" src="{{book.cover_image.url}}" alt="">
         </div>
-        <div class="col-4">
-            <H1>{{book.title}}</H1>
-            <ul>
-                <li>Author : {{book.author}}</li>
-                <li>Published Date : {{book.published_date}}</li>
-                <li>Created At : {{book.created_at}}</li>
-            </ul>
+
+        <div class="col-6 ">
+            <table class="table table-striped">
+
+                <tbody>
+                    <tr>
+                        <td>judul</td>
+                        <td>{{book.title}}</td>
+                    </tr>
+                    <tr>
+                        <td>pengarang</td>
+                        <td>{{book.author}}</td>
+                    </tr>
+                    <tr>
+                        <td>penerbit</th>
+                        <td>{{book.publisher}}</td>
+                    </tr>
+                    <tr>
+                        <td>halaman</td>
+                        <td>{{book.pages_count}}</td>
+                    </tr>
+                    <tr>
+                        <td>ISBN</td>
+                        <td>{{book.isbn}}</td>
+                    </tr>
+                    <tr>
+                       <td>kategori</td>
+                       <td>{{book.category}}</td>
+                    </tr>
+                    <tr>
+                        <td>bahasa</td>
+                        <td>{{book.language}}</td>
+                    </tr>
+                    <tr>
+                        <td>abstrak</td>
+                       <td>{{book.abstract}}</td>
+                    </tr>
+                    <tr>
+                        <td>ketersediaan</td>
+
+                        <td>
+
+                        {% if book.stock >= 1 %}
+                        <p class="btn btn-success">Tersedia</p>
+                        {% else %}
+                        <p class="btn btn-danger">Kosong</p>
+                        {% endif %}
+
+                        </td>
+                            
+                    </tr>
+                </tbody>
+
+            </table>
         </div>
-        <div class="col-4">
-            <img src="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl={{book.code}}&choe=UTF-8" alt="">
-        </div>
+
     </div>
 </div>
 

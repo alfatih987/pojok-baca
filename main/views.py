@@ -4,11 +4,18 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from django.contrib import messages
-from .models import Book, Carousel
+from .models import Book, Carousel, Category
 
 
 def books(request):
-    pass
+    books= Book.objects.all()
+    categories = Category.objects.all()
+    data ={
+        "books":books,
+        "categories":categories
+    }
+    return render(request, 'main/books.html', data)
+    
 def index(request):
     carousel_images = Carousel.objects.all()
     books = Book.objects.all().order_by('-id')[0:4]
@@ -18,6 +25,16 @@ def index(request):
  
     }
     return render(request, 'main/index.html', data)
+
+def category(request,id):
+    books = Book.objects.filter(category=id)
+    categories = Category.objects.all()
+    data = {
+        "books":books,
+        "categories":categories
+    }
+
+    return render(request, 'main/category.html', data)
 
 def register(request):
     if request.method == 'GET':
@@ -46,8 +63,8 @@ def register(request):
         messages.success(request,'your account have been created')
         return HttpResponseRedirect(reverse("home"))
 
-def book_detail(request,id):
-    book = Book.objects.get(id=id)
+def book_detail(request, slug_title):
+    book = Book.objects.get(slug = slug_title)
     data = {
         "book" : book 
     }

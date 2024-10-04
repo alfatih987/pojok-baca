@@ -37,8 +37,10 @@
             {% for book in books %}
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="p-3 text-center mb-3 border shadow rounded-3 hover" >
-                        <img src={{book.cover_image.url}} alt="">
-                        <p> {{book.title}} </p>
+                        <a href="{%url 'book_detail' book.slug %}">
+                            <img src={{book.cover_image.url}} alt="">
+                            <p> {{book.title}} </p>
+                        </a>
                     </div>
                 </div>
             {% endfor %}
