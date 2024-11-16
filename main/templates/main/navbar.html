@@ -12,7 +12,25 @@
                 </li>
             </ul>
             <h1 class="navbar-brand" href="#" style="color: #013815 ;">ALHAZN LIBRARY</h1>
-            <button class="btn btn-outline-danger"><i class="bi bi-door-open-fill"></i></button>
+
+            
+            {% if request.user.is_authenticated %}
+                
+                <form action="/accounts/logout/" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">
+                        <i class="bi bi-door-open-fill"></i>
+                    </button>
+                </form>
+            {% else %}
+                <a class="btn btn-outline-success" href="/accounts/login">
+                    <i class="bi bi-door-closed"></i> 
+                </a>
+            {% endif %}
+                
+           
+
+            
         </div>
     </nav>
 </div>

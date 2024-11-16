@@ -14,7 +14,7 @@
             <ul class="list-group list-group-flush">
             {% for category in categories %}
                 <li class="list-group-item">
-                    <a href="{% url 'category' category.id %}">
+                    <a class="link-underline link-underline-opacity-0"href="{% url 'category' category.id %}">
                         {{category.name}}
                     </a>
                 </li>
@@ -27,12 +27,12 @@
 
             <div class="row gx-5">
 
-
+                
                 {% for book in books %}
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="p-3 text-center mb-3 border shadow rounded-3 hover" >
 
-                        <a href="{%url 'book_detail' book.slug %}">
+                        <a class="link-underline link-underline-opacity-0" href="{%url 'book_detail' book.slug %}">
                             <img src="{{book.cover_image.url}}" alt="">
                             <p>{{book.title}}</p>
                         </a>

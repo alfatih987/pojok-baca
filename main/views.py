@@ -61,7 +61,7 @@ def register(request):
         )
         user.save()
         messages.success(request,'your account have been created')
-        return HttpResponseRedirect(reverse("home"))
+        return HttpResponseRedirect(reverse("login"))
 
 def book_detail(request, slug_title):
     book = Book.objects.get(slug = slug_title)

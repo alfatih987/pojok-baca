@@ -14,7 +14,7 @@
             <ul class="list-group list-group-flush">
             {% for category in categories %}
                 <li class="list-group-item">
-                    <a href="{% url 'category' category.id %}">
+                    <a class="link-underline link-underline-opacity-0" href="{% url 'category' category.id %}">
                         {{category.name}}
                     </a>
                 </li>
@@ -27,22 +27,32 @@
 
             <div class="row gx-5">
 
+                {% if books %}
+                    {% for book in books %}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="p-3 text-center mb-3 border shadow rounded-3 hover" >
 
-                {% for book in books %}
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="p-3 text-center mb-3 border shadow rounded-3 hover" >
-
-                        <a href="{%url 'book_detail' book.slug %}">
-                            <img src="{{book.cover_image.url}}" alt="">
-                            <p>{{book.title}}</p>
-                        </a>
-                        
+                            <a class="link-underline link-underline-opacity-0" href="{%url 'book_detail' book.slug %}">
+                                <img src="{{book.cover_image.url}}" alt="">
+                                <p>{{book.title}}</p>
+                            </a>
+                            
+                        </div>
                     </div>
-                </div>
-                {% endfor %}
-
+                    {% endfor %}
+                {% else %}
+                    <div class="d-flex w-100 vh-100">
+                        <div class="border rounded-5 col-8 m-auto p-5">
+                            <i class="bi bi-exclamation-triangle-fill text-warning display-3 mx-auto d-block text-center"></i>
+                            <h3 class="text-center">Books are not avaiable</h3>
+                            <p class="text-center">the category page that youre currently viewing doesnt have any books</p>
+                            <p class="text-center d-block mx-auto">
+                                <a class="btn btn-warning text-light fw-bold" href="{% url 'books' %}">GO back</a>
+                            </p>
+                        </div>
+                    </div> 
     
-                
+                {% endif %}
 
 
             </div>
