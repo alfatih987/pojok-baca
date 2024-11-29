@@ -70,5 +70,6 @@ def book_detail(request, slug_title):
     }
     return render(request, 'main/book_detail.html', data)
 
-
+def pinjam(request):
+    return render(request, 'main/pinjam.html')
 

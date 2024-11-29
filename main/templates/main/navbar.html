@@ -16,12 +16,25 @@
             
             {% if request.user.is_authenticated %}
                 
-                <form action="/accounts/logout/" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-danger">
-                        <i class="bi bi-door-open-fill"></i>
-                    </button>
-                </form>
+                <ul class="navbar-nav">
+
+                    <li class="navbar-item">
+                        <a class="btn btn-dark mx-3" href="">
+                            <i class=" bi bi-person-fill"></i>
+                        </a>
+                    </li>
+
+                    <li class="navbar-item">
+                        <form action="/accounts/logout/" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-door-open-fill"></i>
+                            </button>
+                        </form>
+                    </li>
+
+                </ul>
+                                   
             {% else %}
                 <a class="btn btn-outline-success" href="/accounts/login">
                     <i class="bi bi-door-closed"></i> 

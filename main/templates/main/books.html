@@ -9,8 +9,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-2 border-end position-fixed" style="margin-top: 4rem;">
-            <h1>Category:</h1>
+        <div class="col-2 d-none d-lg-block border-end position-fixed" style="margin-top: 4rem;">
+            <h1 class="">Category:</h1>
             <ul class="list-group list-group-flush">
             {% for category in categories %}
                 <li class="list-group-item">
@@ -21,6 +21,20 @@
             {% endfor %}
                 
 
+            </ul>
+        </div>
+        <div class="btn-group  d-lg-none d-block position-sticky">
+            <button class="btn btn-secondary  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-list"></i>
+            </button>
+            <ul class="dropdown-menu ">
+                {% for category in categories %}
+                    <li class="list-group-item">
+                        <a class="link-underline link-underline-opacity-0"href="{% url 'category' category.id %}">
+                            {{category.name}}
+                        </a>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
         <div class="col-10 offset-2 px-5">

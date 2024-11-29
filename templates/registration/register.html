@@ -18,7 +18,7 @@
     <div class="container-fluid">
         <div class="row vh-100">
      
-            <div class="col-4 m-0 me-auto bg-dark text-light border-end  ">
+            <div class="col-12 col-lg-6 m-auto m-lg-0 bg-dark text-light border-end ">
                 <form action="{% url 'register' %}" method="post" onsubmit="return checkPassword()">
                     {% csrf_token %}
                     <h1>Sign up:</h1>
@@ -85,7 +85,7 @@
                 </form>
             </div>
 
-            <div class="col-8 m-0 p-0 bg-dark text-fark d-flex justify-content-center align-items-center vh-100">
+            <div class="d-lg-flex d-none col-6 m-0 p-0 bg-dark text-dark justify-content-center align-items-center ">
                 <div class="border border-light rounded-5 p-4 border-2 w-50 bg-light">
                     <p class="display-6">"Reading is important. If you know how to read, then the whole world opens up to you." <h2>– Barack Obama</h2><p>
                 </div>
