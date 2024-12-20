@@ -73,3 +73,10 @@ def book_detail(request, slug_title):
 def pinjam(request):
     return render(request, 'main/pinjam.html')
 
+def account(request):
+    account = User.objects.get(id = request.user.id)
+    data = {
+        "user" : account
+    }
+    return render(request, 'main/account.html', data)
+

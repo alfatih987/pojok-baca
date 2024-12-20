@@ -1,0 +1,75 @@
+{% extends 'main/base.html' %}
+{% block title %}
+    Fatih's library
+{% endblock title %}
+{% block content %}
+
+{% include 'main/navbar.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form action="" method="" onsubmit="return false">
+ 
+                <div class="mb-3">
+                    <label class="form-label" for="firstName">First Name
+                        <input class="form-control" type="text" value="{{user.first_name}}" name="firstName" readonly>
+                    </label>
+                </div>
+             
+                <div class="mb-3">
+                    <label class="form-label" for="lastName">Last Name
+                        <input class="form-control" type="text" value="{{user.last_name}}" name="lastName" readonly>
+                    </label>
+                </div>
+             
+                <div class="mb-3">
+                    <label class="form-label" for="email">Email
+                        <input class="form-control" type="email" value="{{user.email}}" name="email" readonly>
+                    </label>
+                </div>
+             
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username
+                        <input class="form-control" type="text" value="{{user.username}}" name="username" readonly>
+                    </label>
+                </div>
+                          
+                <div class="mb-3">
+                    <label class="form-label" for="password1">Password
+                        <input class="form-control mb-2" type="password" name="password1" placeholder="Enter a new password">
+                        <input class="form-control" type="password" name="password2" placeholder="Confirm password">
+                    </label>
+                </div>
+             
+                <div class="mb-3">
+                    
+                    <button class="btn btn-warning" id="edit" >Edit</button>
+                </div>
+
+                
+             
+            </form>
+        </div>   
+     </div>
+</div>
+
+<script>
+    const inputs = document.querySelectorAll("[readonly]");
+    const editbutton = document.getElementById("edit")
+    console.log(editbutton);
+    
+    editbutton.addEventListener("click", () => {
+        for (input of inputs){
+            input.removeAttribute("readonly");
+
+            console.log(Text)
+        }
+    })
+
+</script>
+        
+    
+    
+
+
+{% endblock content %}
