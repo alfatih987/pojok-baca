@@ -8,8 +8,10 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <form action="" method="" onsubmit="return false">
- 
+            <form action="" method="post" >
+                {% csrf_token %}
+                <input name="id" type="hidden" value="{{user.id}}">
+                
                 <div class="mb-3">
                     <label class="form-label" for="firstName">First Name
                         <input class="form-control" type="text" value="{{user.first_name}}" name="firstName" readonly>
@@ -36,15 +38,26 @@
                           
                 <div class="mb-3">
                     <label class="form-label" for="password1">Password
-                        <input class="form-control mb-2" type="password" name="password1" placeholder="Enter a new password">
-                        <input class="form-control" type="password" name="password2" placeholder="Confirm password">
+                        <input class="form-control mb-2" type="password" name="password1" placeholder="Enter a new password" id="password1">
+                        <input class="form-control" type="password" name="password2" placeholder="Confirm password" id="password2">
+                        <small id="feedback" class="mb-3"></small>
                     </label>
+
+                    
+                    
                 </div>
+                
              
                 <div class="mb-3">
                     
-                    <button class="btn btn-warning" id="edit" >Edit</button>
+                    <a class="btn btn-warning" id="edit" >Edit</a>
+                    <input type="submit"  class="btn btn-primary">
+
                 </div>
+
+                
+                    
+                
 
                 
              
@@ -65,6 +78,85 @@
             console.log(Text)
         }
     })
+
+
+    // function checkPassword(form) {
+    //         password1 = form.password1.value;
+    //         password2 = form.password2.value;
+
+        //     // If password not entered
+        //     if (password1 == '')
+        //         alert("Please enter Password");
+
+        //     // If confirm password not entered
+        //     else if (password2 == '')
+        //         alert("Please enter confirm password");
+
+        //     // If Not same return False.    
+        //     else if (password1 != password2) {
+        //         alert("\nPassword did not match: Please try again...")
+        //         return false;
+        //     }
+
+        //     // If same return True.
+        //     else {
+        //         alert("Password Match: Welcome to GeeksforGeeks!")
+        //         return true;
+        //     }
+        // }
+
+        const submitButton = document.querySelector('#submitButton');
+		const password1 = document.querySelector('#password1');
+		const password2 = document.querySelector('#password2');
+		const feedback = document.querySelector('#feedback');
+		
+		password2.addEventListener('keyup',()=>{
+			if(password1.value != password2.value){
+				password2.classList.add("is-invalid");
+				password2.classList.remove("is-valid");
+				feedback.innerText = "Password tidak sesuai";
+				feedback.classList.add("invalid-feedback");
+				feedback.classList.remove("valid-feedback");
+			}
+            else if(password1.value == "" && password2.value == ""){
+				password2.classList.remove("is-invalid");
+				password2.classList.remove("is-valid");
+				feedback.innerText = "";
+				feedback.classList.remove("invalid-feedback");
+				feedback.classList.remove("valid-feedback");
+            }
+             else {
+				password2.classList.add("is-valid");
+				password2.classList.remove("is-invalid");
+				feedback.innerText = "Password sesuai";
+				feedback.classList.add("valid-feedback");
+				feedback.classList.remove("invalid-feedback");
+			}
+		});
+
+        password1.addEventListener('keyup',()=>{
+			if(password1.value != password2.value){
+				password2.classList.add("is-invalid");
+				password2.classList.remove("is-valid");
+				feedback.innerText = "Password tidak sesuai";
+				feedback.classList.add("invalid-feedback");
+				feedback.classList.remove("valid-feedback");
+			}
+            else if(password1.value == "" && password2.value == ""){
+				password2.classList.remove("is-invalid");
+				password2.classList.remove("is-valid");
+				feedback.innerText = "";
+				feedback.classList.remove("invalid-feedback");
+				feedback.classList.remove("valid-feedback");
+            }
+             else {
+				password2.classList.add("is-valid");
+				password2.classList.remove("is-invalid");
+				feedback.innerText = "Password sesuai";
+				feedback.classList.add("valid-feedback");
+				feedback.classList.remove("invalid-feedback");
+			}
+		});
 
 </script>
         

@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from django.contrib import messages
 from .models import Book, Carousel, Category
+from django.contrib.auth import update_session_auth_hash
 
 
 def books(request):
@@ -74,9 +75,38 @@ def pinjam(request):
     return render(request, 'main/pinjam.html')
 
 def account(request):
+    
+    if request.method == "POST" :
+        user = User.objects.get(id=request.POST['id'])
+        
+        id = request.POST['id']
+        username = request.POST['username']
+        firstName = request.POST['firstName']
+        lastName = request.POST['lastName']
+        email = request.POST['email']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+
+        
+        user.id = id
+        user.username = username
+        user.first_name = firstName
+        user.last_name = lastName
+        user.email = email
+        if len(password1) > 3:
+            if password1 == password2:
+                user.password = make_password(password1)
+
+        user.save()
+        return HttpResponseRedirect(reverse("login"))
+        
+             
+    
     account = User.objects.get(id = request.user.id)
+        
+    print(request.user)
+    print(account.id)
     data = {
         "user" : account
     }
     return render(request, 'main/account.html', data)
-
