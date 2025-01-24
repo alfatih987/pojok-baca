@@ -74,7 +74,29 @@
 
                         <td>
                             {% if request.user.is_authenticated %}
-                                <a href="{% url 'pinjam' %}" class="btn btn-primary">Pinjam</a>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Pinjam
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="text-center modal-title fs-5" id="exampleModalLabel">Konfirmasi</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="text-center modal-body">
+                                        Apakah kamu ingin meminjam buku ini?
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger m-auto" data-bs-dismiss="modal">tidak</button>
+                                        <a href="{% url 'pinjam' %}" type="button" class="btn btn-primary m-auto">ya</a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
                             {% elif book.stock == 0  %}
                                 <a class="btn btn-danger">tidak tersedia</a>
                             {% else %}

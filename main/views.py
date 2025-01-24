@@ -61,6 +61,7 @@ def register(request):
 
         )
         user.save()
+        
         messages.success(request,'your account have been created')
         return HttpResponseRedirect(reverse("login"))
 
@@ -69,10 +70,16 @@ def book_detail(request, slug_title):
     data = {
         "book" : book 
     }
+    url = request.get_full_path()
+    print(url)
     return render(request, 'main/book_detail.html', data)
 
 def pinjam(request):
-    return render(request, 'main/pinjam.html')
+    url = request.get_full_path()
+    print(url)
+    # user = User.objects.get(id=request.user.id)
+    pass
+
 
 def account(request):
     
@@ -93,12 +100,13 @@ def account(request):
         user.first_name = firstName
         user.last_name = lastName
         user.email = email
-        if len(password1) > 3:
-            if password1 == password2:
-                user.password = make_password(password1)
-
+        if len(password1) > 3 and password1 == password2:
+            user.password = make_password(password1)
+            update_session_auth_hash(request, user)
         user.save()
-        return HttpResponseRedirect(reverse("login"))
+        update_session_auth_hash(request, user)
+        print(f"ur :{user}")
+        # return HttpResponseRedirect(reverse("login"))
         
              
     
