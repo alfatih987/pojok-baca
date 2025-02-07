@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from django.contrib import messages
-from .models import Book, Carousel, Category
+from .models import Book, Carousel, Category, BorrowedBook, BorrowedBookDetail
 from django.contrib.auth import update_session_auth_hash
 
 
@@ -70,15 +70,31 @@ def book_detail(request, slug_title):
     data = {
         "book" : book 
     }
-    url = request.get_full_path()
-    print(url)
+    
     return render(request, 'main/book_detail.html', data)
 
 def pinjam(request):
-    url = request.get_full_path()
-    print(url)
-    # user = User.objects.get(id=request.user.id)
-    pass
+    book = Book.objects.get(id=request.POST['book.id'])
+    #cek buku stok
+    if book.stock < 1:
+        messages.error(request,"buku ini sudah habis")
+        return HttpResponseRedirect(f"/book/detail/{book.slug}")
+    #update data stock
+    else:
+        book.stock = book.stock -1
+        book.save()
+
+    borrowed_book = BorrowedBook.objects.create(
+        member = request.user,
+        created_by = f"User: {request.user.first_name}{request.user.last_name}"
+    )
+ 
+    # tambah data borrowed book detail
+    borrowed_book_detail = BorrowedBookDetail(
+        borrowed_book = borrowed_book,
+        book = book
+    ).save()    
+
 
 
 def account(request):
