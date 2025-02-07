@@ -61,7 +61,7 @@
                         <td>
 
                         {% if book.stock >= 1 %}
-                        <p class="btn btn-success">Tersedia</p>
+                        <p class="btn btn-success">Tersedia : {{book.stock}}</p>
                         {% else %}
                         <p class="btn btn-danger">Kosong</p>
                         {% endif %}
