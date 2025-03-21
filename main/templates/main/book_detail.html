@@ -78,7 +78,7 @@
 
                         <td>
                             {% if request.user.is_authenticated %}
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" {% if book.stock < 1 %} disabled {%endif%}>
                                     Pinjam
                                 </button>
 

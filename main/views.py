@@ -134,3 +134,14 @@ def account(request):
         "user" : account
     }
     return render(request, 'main/account.html', data)
+
+def my_borrowings(request):
+    borrowedBooks = BorrowedBook.objects.filter(member = request.user)
+    # borrowedBookDetails = BorrowedBookDetail.objects.filter(borrowed_book = borrowedBooks.id)
+
+    data = {
+        "borrowedBooks" : borrowedBooks,
+        # "borrowings" : borrowedBookDetails
+    }
+
+    return render(request, 'main/borrowings.html', data)

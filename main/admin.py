@@ -3,10 +3,10 @@ from .models import Book, Carousel, Category, Author, Publisher, BorrowedBook, B
 from slugify import slugify
 import datetime
 from django.utils.html import mark_safe
+from unfold.admin import ModelAdmin
 
 
-
-class BookAdmin(admin.ModelAdmin):
+class BookAdmin(ModelAdmin):
     list_display = ["id","title","isbn","language","created_by","category","pages_count","author","publisher","stock"]
     list_display_links = ["title"]
     exclude = ["created_by", "updated_by"]
@@ -19,7 +19,7 @@ class BookAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
     
 
-class CarouselAdmin(admin.ModelAdmin):
+class CarouselAdmin(ModelAdmin):
     def image(self):
             return mark_safe(f"<img src='{self.image.url}'  height='250' />" )
     list_display = ["id", image, "created_by", "updated_by"]
@@ -35,7 +35,7 @@ class CarouselAdmin(admin.ModelAdmin):
 
 
 
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(ModelAdmin):
     list_display = ["id", "name", "created_by","updated_by"]
     list_display_links = ["name"]
     exclude = ["created_by", "updated_by"]
@@ -47,7 +47,7 @@ class CategoryAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
     
 
-class AuthorAdmin(admin.ModelAdmin):
+class AuthorAdmin(ModelAdmin):
     list_display = ["id", "name", "created_by", "updated_by"]
     list_display_links = ["name"]
     exclude = ["created_by","updated_by"]
@@ -59,7 +59,7 @@ class AuthorAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
-class PublisherAdmin(admin.ModelAdmin):
+class PublisherAdmin(ModelAdmin):
     list_display = ["id", "name", "created_by", "updated_by"]
     list_display_links = ["name"]
     exclude = ["created_by","updated_by"]
@@ -70,10 +70,10 @@ class PublisherAdmin(admin.ModelAdmin):
         obj.updated_by = user.username
         super().save_model(request, obj, form, change)
 
-class BorrowedBookAdmin(admin.ModelAdmin):
+class BorrowedBookAdmin(ModelAdmin):
     exclude = ["created_by","updated_by"]
 
-class BorrowedBookDetailAdmin(admin.ModelAdmin):
+class BorrowedBookDetailAdmin(ModelAdmin):
     @admin.display
     def returned(obj):
         if obj.returned == None:
@@ -137,6 +137,9 @@ class BorrowedBookDetailAdmin(admin.ModelAdmin):
 
     actions = [make_unreturn, make_return]
 
+    
+
+
 
 
 
@@ -152,4 +155,3 @@ admin.site.register(Author,AuthorAdmin)
 admin.site.register(Publisher,PublisherAdmin)
 admin.site.register(BorrowedBookDetail,BorrowedBookDetailAdmin)
 admin.site.register(BorrowedBook,BorrowedBookAdmin)
-

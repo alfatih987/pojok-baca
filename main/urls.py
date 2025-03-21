@@ -8,6 +8,6 @@ urlpatterns = [
     path('books/', views.books, name="books" ),
     path('category/<int:id>', views.category, name="category"),
     path('pinjam/', views.pinjam, name="pinjam" ),
-    path('account/',views.account, name="account")
-
+    path('account/',views.account, name="account"),
+    path('account/my-borrowings', views.my_borrowings, name="borrowings")
 ]
