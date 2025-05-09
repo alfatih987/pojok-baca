@@ -20,19 +20,30 @@
                 <ul class="navbar-nav">
 
                     <li class="navbar-item">
-                        <a class="btn btn-dark mx-3" href="{% url 'account' %}">
-                            <i class=" bi bi-person-fill"></i>
-                        </a>
+                        <div class=" dropstart">
+                            <button class="btn btn-dark mx-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class=" bi bi-person-fill"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'account' %}">My account</a></li>
+                                <li><a class="dropdown-item" href="{% url 'borrowings' %}">my borrowings</a></li>
+                                <hr>
+                                <li>
+
+                                    <form action="/accounts/logout/" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn">
+                                            Logout
+                                        </button>
+                                    </form>
+
+                                </li>
+                            </ul>
+                        </div>
                     </li>
 
-                    <li class="navbar-item">
-                        <form action="/accounts/logout/" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-danger">
-                                <i class="bi bi-door-open-fill"></i>
-                            </button>
-                        </form>
-                    </li>
+                    
+                
 
                 </ul>
                                    

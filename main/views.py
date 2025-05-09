@@ -81,7 +81,7 @@ def pinjam(request):
         return HttpResponseRedirect(f"/book/detail/{book.slug}")
     #update data stock
     else:
-        book.stock = book.stock -1
+        book.stock -= 1
         book.save()
 
     borrowed_book = BorrowedBook.objects.create(
@@ -95,8 +95,8 @@ def pinjam(request):
         book = book
     ).save()    
 
-
-
+    messages.success(request,"kamu berhasil meminjam buku ini silahkan menghubungi admin untuk meminjam nya")
+    return HttpResponseRedirect(f"/book/detail/{book.slug}")
 def account(request):
     
     if request.method == "POST" :

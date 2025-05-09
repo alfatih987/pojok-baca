@@ -10,7 +10,20 @@
     <div class="row">
         
 
-            {{borrowedBooks}}
+        <table>
+            <thead>
+            <tr>
+            <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for bb in borrowedBooks %}
+            <tr>
+            <td>{{bb.date}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         
 
     </div>
