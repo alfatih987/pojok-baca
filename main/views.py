@@ -86,7 +86,8 @@ def pinjam(request):
 
     borrowed_book = BorrowedBook.objects.create(
         member = request.user,
-        created_by = f"User: {request.user.first_name}{request.user.last_name}"
+        created_by = f"User: {request.user.first_name}{request.user.last_name}",
+        book_id = book.id
     )
  
     # tambah data borrowed book detail
@@ -136,12 +137,10 @@ def account(request):
     return render(request, 'main/account.html', data)
 
 def my_borrowings(request):
-    borrowedBooks = BorrowedBook.objects.filter(member = request.user)
-    # borrowedBookDetails = BorrowedBookDetail.objects.filter(borrowed_book = borrowedBooks.id)
+    borrowedBooks = BorrowedBook.objects.filter(member=request.user).prefetch_related('borrowedbookdetail_set')
 
     data = {
-        "borrowedBooks" : borrowedBooks,
-        # "borrowings" : borrowedBookDetails
+        "borrowedBooks": borrowedBooks
     }
 
     return render(request, 'main/borrowings.html', data)

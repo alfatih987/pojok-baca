@@ -12,16 +12,41 @@
 
         <table>
             <thead>
-            <tr>
-            <th>Date</th>
-            </tr>
+                <tr>
+                    <th>Date</th>
+                    <th>Books</th>
+                    <th>Status</th>
+                </tr>
             </thead>
             <tbody>
-            {% for bb in borrowedBooks %}
-            <tr>
-            <td>{{bb.date}}</td>
-            </tr>
-            {% endfor %}
+
+                {% for bb in borrowedBooks %}
+                <tr>
+                    <td>{{ bb.date }}</td>
+                    <td>
+                        
+                        {% for detail in bb.borrowedbookdetail_set.all %}
+                            {{ detail.book.title }}  {# atau field lain sesuai model #}
+                        {% empty %}
+                            No details
+                        {% endfor %}
+                        
+                    </td>
+                    <td>
+                        
+                        {% for detail in bb.borrowedbookdetail_set.all %}
+                            {% if detail.returned %}
+                                Sudah Dikembalikan
+                            {% else %}
+                                Belum Dikembalikan
+                            {% endif %}
+                        {% empty %}
+                            No details
+                        {% endfor %}
+                        
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
         
