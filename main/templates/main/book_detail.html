@@ -97,7 +97,7 @@
                                         <button type="button" class="btn btn-danger m-auto" data-bs-dismiss="modal">tidak</button>
                                         <form action="{% url 'pinjam' %}" method="post">
                                             {% csrf_token %}
-                                            <input type="hidden" name="book.id" value="{{ book.id }}">
+                                            <input type="hidden" name="book_id" value="{{ book.id }}">
                                             <input type="submit" name="submit" value="ya" class="btn btn-primary m-auto">
                                         </form>
                                         </div>

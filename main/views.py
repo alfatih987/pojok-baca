@@ -6,7 +6,9 @@ from django.urls import reverse
 from django.contrib import messages
 from .models import Book, Carousel, Category, BorrowedBook, BorrowedBookDetail
 from django.contrib.auth import update_session_auth_hash
-
+from django.utils.dateparse import parse_date
+from django.shortcuts import render
+from datetime import datetime, time
 
 def books(request):
     books= Book.objects.all()
@@ -74,7 +76,8 @@ def book_detail(request, slug_title):
     return render(request, 'main/book_detail.html', data)
 
 def pinjam(request):
-    book = Book.objects.get(id=request.POST['book.id'])
+    book_id = request.POST.get('book_id')
+    book = Book.objects.get(id=book_id)
     #cek buku stok
     if book.stock < 1:
         messages.error(request,"buku ini sudah habis")
@@ -87,7 +90,6 @@ def pinjam(request):
     borrowed_book = BorrowedBook.objects.create(
         member = request.user,
         created_by = f"User: {request.user.first_name}{request.user.last_name}",
-        book_id = book.id
     )
  
     # tambah data borrowed book detail
@@ -98,6 +100,7 @@ def pinjam(request):
 
     messages.success(request,"kamu berhasil meminjam buku ini silahkan menghubungi admin untuk meminjam nya")
     return HttpResponseRedirect(f"/book/detail/{book.slug}")
+
 def account(request):
     
     if request.method == "POST" :
@@ -137,10 +140,19 @@ def account(request):
     return render(request, 'main/account.html', data)
 
 def my_borrowings(request):
-    borrowedBooks = BorrowedBook.objects.filter(member=request.user).prefetch_related('borrowedbookdetail_set')
+    borrowedBooks = BorrowedBook.objects.filter(member=request.user).prefetch_related('borrowedbookdetail_set').order_by('-date')
 
-    data = {
-        "borrowedBooks": borrowedBooks
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    if start_date:
+        borrowedBooks = borrowedBooks.filter(date__gte=datetime.combine(parse_date(start_date), time.min))
+    if end_date:
+        borrowedBooks = borrowedBooks.filter(date__lte=datetime.combine(parse_date(end_date), time.max))
+
+    context = {
+        "borrowedBooks": borrowedBooks,
+        "start_date": start_date,
+        "end_date": end_date,
     }
-
-    return render(request, 'main/borrowings.html', data)
+    return render(request, 'main/borrowings.html', context)
