@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test 
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
@@ -7,8 +7,9 @@ from django.contrib import messages
 from .models import Book, Carousel, Category, BorrowedBook, BorrowedBookDetail
 from django.contrib.auth import update_session_auth_hash
 from django.utils.dateparse import parse_date
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from datetime import datetime, time
+from django.contrib.auth import authenticate, login, logout
 
 def books(request):
     books= Book.objects.all()
@@ -20,6 +21,9 @@ def books(request):
     return render(request, 'main/books.html', data)
     
 def index(request):
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('admin_dashboard')
+
     carousel_images = Carousel.objects.all()
     books = Book.objects.all().order_by('-id')[0:4]
     data = {
@@ -66,6 +70,20 @@ def register(request):
         
         messages.success(request,'your account have been created')
         return HttpResponseRedirect(reverse("login"))
+
+def auth_login(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username = username, password = password)
+        if user is not None:
+            login(request, user)
+            return redirect("home")
+        else:
+            messages.error(request, "Invalid username or password")
+    
+    return render(request, 'registration/login.html')
 
 def book_detail(request, slug_title):
     book = Book.objects.get(slug = slug_title)
@@ -156,3 +174,30 @@ def my_borrowings(request):
         "end_date": end_date,
     }
     return render(request, 'main/borrowings.html', context)
+
+def is_admin(user):
+     return user.is_authenticated and user.is_staff
+
+@login_required
+@user_passes_test(is_admin)
+def admin_dashboard(request):
+    total_users = User.objects.filter(is_staff=False).count()
+    total_books = Book.objects.count()
+    total_borrowed_books = BorrowedBookDetail.objects.filter(returned__isnull=True).count()
+    total_borrowings = BorrowedBook.objects.count()
+    data = {
+        "total_users" : total_users,
+        "total_books" : total_books,
+        "total_borrowed_books" : total_borrowed_books,
+        "total_borrowings" : total_borrowings
+    }
+
+    return render(request,'admin/dashboard.html', data)
+
+@login_required
+@user_passes_test(is_admin)
+def admin_borrowings(request):
+    
+
+    return render(request,'admin/borrowings.html',)
+    

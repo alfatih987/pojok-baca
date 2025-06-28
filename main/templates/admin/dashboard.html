@@ -1,0 +1,59 @@
+{% extends 'main/base.html' %}
+{% block title %}
+    admin dashboard
+{% endblock title %}
+{% block content %}
+<div class="d-flex flex-nowrap">
+{% include 'admin/sitebar.html' %}
+<main class="flex-grow-1 p-3">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3 mb-4">
+
+            <div class="card text-white bg-primary h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Users</h5>
+                    <p class="card-text display-4">{{ total_users }}</p>
+                    <p class="card-text">Total registered users</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-success h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Books</h5>
+                    <p class="card-text display-4">{{ total_books }}</p>
+                    <p class="card-text">Total books in library</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-warning h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Borrowed Books</h5>
+                    <p class="card-text display-4">{{ total_borrowed_books }}</p>
+                    <p class="card-text">Total books borrowed</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-danger h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Transaction</h5>
+                    <p class="card-text display-4">{{ total_borrowings }}</p>
+                    <p class="card-text">Total borrowing of all books</p>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+</main>
+ 
+</div>
+{% endblock content %}

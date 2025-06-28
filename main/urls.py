@@ -9,5 +9,11 @@ urlpatterns = [
     path('category/<int:id>', views.category, name="category"),
     path('pinjam/', views.pinjam, name="pinjam" ),
     path('account/',views.account, name="account"),
-    path('account/my-borrowings', views.my_borrowings, name="borrowings")
+    path('account/my-borrowings', views.my_borrowings, name="borrowings"),
+    path('admin-dashboard/', views.admin_dashboard, name="admin_dashboard"),
+    path('admin-borrowings/', views.admin_borrowings, name="admin_borrowings"),
+    path('login/', views.auth_login, name="login")
+
+    
+
 ]

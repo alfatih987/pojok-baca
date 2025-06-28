@@ -1,0 +1,67 @@
+<div class="col-md-3 col-lg-2 d-md-block sidebar collapse show" id="sidebarMenu">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white" style="width: 210px; min-height: 100vh;">
+
+        <a href="{% url 'admin_dashboard' %}"
+            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <!-- Bisa ganti icon bootstrapnya kalau mau -->
+            <span class="fs-4">Admin Pojok Baca</span>
+        </a>
+
+        <hr>
+
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="{% url 'admin_dashboard' %}" class="nav-link {% if request.path == '/admin-dashboard/' %}active text-white{% else %}text-white{% endif %}">
+                    <i class="bi bi-house-fill"></i>
+                    Dashboard
+                </a>
+            </li>
+        
+            <li>
+                <a href="{% url 'admin_borrowings' %}" class="nav-link {% if request.path == '/admin-borrowings/' %}active text-white{% else %}text-white{% endif %}">
+                    <i class="bi bi-archive-fill"></i>
+                    Borrowings
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="nav-link text-white">
+                    <i class="bi bi-people-fill"></i>
+                    Users
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="nav-link text-white">
+                    <i class="bi bi-book-fill"></i>
+                    Books
+                </a>
+            </li>
+        </ul>
+
+        <hr>
+
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                    alt="User" width="32" height="32" class="rounded-circle me-2" />
+                <strong>{{ user.username }}</strong>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item btn btn-link">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
