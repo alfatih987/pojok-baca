@@ -9,8 +9,115 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Borrowings</h1>
     </div>
-   
-        
+    
+    <form method="GET" class="mb-4 d-flex gap-2 align-items-center">
+        <label for="start_date">Dari:</label>
+        <input type="date" id="start_date" name="start_date" class="form-control" value="{{ start_date }}">
+    
+        <label for="end_date">Sampai:</label>
+        <input type="date" id="end_date" name="end_date" class="form-control" value="{{ end_date }}">
+    
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{% url 'admin_borrowings' %}" class="btn btn-secondary">Reset</a>
+    </form>
+    <div class="mb-3">
+        <input type="text" id="tableSearch" class="form-control" placeholder="Cari buku atau status...">
+    </div>
+    <h1>Belum Dikembalikan</h1>
+    <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+        <table class="table table-striped table-hover align-middle" id="borrowedBooksTable">
+            <thead class="" style="position: sticky; top: 0; background-color: white; z-index: 1;">
+                <tr>
+                    <th>Date</th>
+                    <th>Books</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bb in returned_borrowedBooks %}
+                <tr>
+                    <td>{{ bb.date }}</td>
+                    <td>
+                        {% for detail in bb.borrowedbookdetail_set.all %}
+                        {{ detail.book.title }}
+                        {% empty %}
+                        No details
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for detail in bb.borrowedbookdetail_set.all %}
+                        {% if detail.returned %}
+                        <span class="text-success">Sudah Dikembalikan</span>
+                        {% else %}
+                        <span class="text-danger">Belum Dikembalikan</span>
+                        {% endif %}
+                        {% empty %}
+                        No details
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for detail in bb.borrowedbookdetail_set.all %}
+                        <a class="link-primary" href="{% url 'book_detail' detail.book.slug %}">
+                            Detail Buku
+                        </a>
+                        {% empty %}
+                        No Book
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="table-responsive mt-5" style="max-height: 350px; overflow-y: auto;">
+        <h1>Sudah Dikembalikan</h1>
+        <table class="table table-striped table-hover align-middle" id="borrowedBooksTable">
+            <thead class="">
+                <tr>
+                    <th>Date</th>
+                    <th>Books</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bb in borrowedBooks %}
+                <tr>
+                    <td>{{ bb.date }}</td>
+                    <td>
+                        {% for detail in bb.borrowedbookdetail_set.all %}
+                        {{ detail.book.title }}
+                        {% empty %}
+                        No details
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for detail in bb.borrowedbookdetail_set.all %}
+                        {% if detail.returned %}
+                        <span class="text-success">Sudah Dikembalikan</span>
+                        {% else %}
+                        <span class="text-danger">Belum Dikembalikan</span>
+                        {% endif %}
+                        {% empty %}
+                        No details
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for detail in bb.borrowedbookdetail_set.all %}
+                        <a class="link-primary" href="{% url 'book_detail' detail.book.slug %}">
+                            Detail Buku
+                        </a>
+                        {% empty %}
+                        No Book
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
         
     </div>
 </main>

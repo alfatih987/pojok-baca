@@ -10,6 +10,7 @@ from django.utils.dateparse import parse_date
 from django.shortcuts import render, redirect
 from datetime import datetime, time
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Count, Q
 
 def books(request):
     books= Book.objects.all()
@@ -197,7 +198,31 @@ def admin_dashboard(request):
 @login_required
 @user_passes_test(is_admin)
 def admin_borrowings(request):
+    returned_borrowedBooks = BorrowedBook.objects.annotate(
+        unreturned_count = Count(
+            'borroweddetail_set',
+            filter = Q(borroweddetail_set_returned_isnull = True)
+        )
+    ).filter(
+        unreturned_count = null
+    ).prefetch_related('borrowedbookdetail_set').order_by('-date')
+    borrowedBooks = BorrowedBook.objects.annotate.prefetch_related('borrowedbookdetail_set').order_by('-date')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    if start_date:
+        borrowedBooks = borrowedBooks.filter(date__gte=datetime.combine(parse_date(start_date), time.min))
+    if end_date:
+        borrowedBooks = borrowedBooks.filter(date__lte=datetime.combine(parse_date(end_date), time.max))
+
+    data = {
+        "returned_borrowedBooks" : returned_borrowedBooks,
+        "borrowedBooks" : borrowedBooks,
+        "start_date" : start_date,
+        "end_date" : end_date
+    }
+
+    return render(request,'admin/borrowings.html', data)
     
 
-    return render(request,'admin/borrowings.html',)
-    
+
